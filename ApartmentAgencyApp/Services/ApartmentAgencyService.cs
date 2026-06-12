@@ -9,7 +9,14 @@ namespace ApartmentAgencyApp.Services
     {
         private readonly IDateCalculationService _dateCalculationService;
         private readonly IApartmentService _apartmentService;
-        private readonly IReservationService _reservatonService;
+        private readonly IReservationService _reservationService;
+
+        public ApartmentAgencyService(IDateCalculationService dateCalculationService,IApartmentService apartmentService, IReservationService reservatonService)
+        {
+            _dateCalculationService = dateCalculationService;
+            _apartmentService = apartmentService;
+            _reservationService = reservatonService;
+        }
 
         public void MakeApartmentReservation(ReservationRequest request)
         {
@@ -48,7 +55,7 @@ namespace ApartmentAgencyApp.Services
             {
                 throw new NoAvailableApartmentsException("Cannot make a reservation");
             }
-            _reservatonService.MakeReservationInComplex(new Reservation { ApartmentId = availableApartments[0].Id, ReservationRequestId = request.Id, ApartmentComplex = complex });
+            _reservationService.MakeReservationInComplex(new Reservation { ApartmentId = availableApartments[0].Id, ReservationRequestId = request.Id, ApartmentComplex = complex });
         }
 
         public ApartmentRank CalculateApartmentRank(double distanceFromTheBeach, int percentOfPositiveReviews, ApartmentType apartmentType, bool renovatedInTheLastYear)
